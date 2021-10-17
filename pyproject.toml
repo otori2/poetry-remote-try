@@ -11,6 +11,8 @@ flake8 = "^3.9.2"
 mypy = "^0.910"
 jupyterlab = "^3.1.11"
 nbstripout = "^0.5.0"
+fastapi = "^0.68.1"
+uvicorn = {extras = ["standard"], version = "^0.15.0"}
 
 [tool.poetry.dev-dependencies]
 
