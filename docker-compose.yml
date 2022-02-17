@@ -1,13 +1,26 @@
 version: '3'
 services:
-  python:
+  python-gpu:
     build:
       context: .
       dockerfile: ./.devcontainer/Dockerfile
+      args:
+        - PYTHON_VERSION=${PYTHON_VERSION}
+        - CUDA_VERSION=${CUDA_VERSION}
     volumes:
       - ".:/workspace"
-      # - ".jupyter:/root/.jupyter"
+      - ".jupyter:/root/.jupyter"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - 'driver': 'nvidia'
+              'capabilities': [ 'gpu' ]
+    # runtime: nvidia
     tty: true
-    # ports:
-    #   - "${JUPYTER_PORT}:8888"
-    # command: jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.token='' --port=8888
+    # environment:
+    #   - NVIDIA_VISIBLE_DEVICES=all
+    #   - NVIDIA_DRIVER_CAPABILITIES=all
+    ports:
+      - "${JUPYTER_PORT}:8888"
+    command: jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.token='' --port=8888
